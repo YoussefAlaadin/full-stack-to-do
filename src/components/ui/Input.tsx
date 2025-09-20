@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, Ref, forwardRef } from "react";
+import  { type InputHTMLAttributes, type Ref, forwardRef } from "react";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {}
 

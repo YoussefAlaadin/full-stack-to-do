@@ -1,12 +1,12 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-import PageNotFound from "../pages/PageNotFound";
+//import PageNotFound from "../pages/PageNotFound";
 import RootLayout from "../pages/Layout";
 import ErrorHandler from "../components/errors/ErrorHandler";
-import HomePage from "../pages";
-import LoginPage from "../pages/Login";
+//import HomePage from "../pages";
+//import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
-import TodosPage from "../pages/Todos";
+//import TodosPage from "../pages/Todos";
 
 const storageKey = "loggedInUser";
 const userDataString = localStorage.getItem(storageKey);
@@ -17,7 +17,7 @@ const router = createBrowserRouter(
     <>
       {/* Root Layout */}
       <Route path="/" element={<RootLayout />} errorElement={<ErrorHandler />}>
-        <Route
+        {/* <Route
           index
           element={
             <ProtectedRoute isAllowed={userData?.jwt} redirectPath="/login" data={userData}>
@@ -48,7 +48,7 @@ const router = createBrowserRouter(
               <LoginPage />
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="register"
           element={
@@ -60,7 +60,7 @@ const router = createBrowserRouter(
       </Route>
 
       {/* Page Not Found */}
-      <Route path="*" element={<PageNotFound />} />
+      {/* <Route path="*" element={<PageNotFound />} /> */}
     </>
   )
 );
