@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +21,12 @@ public class TaskService {
     // Get all tasks
     public List<Task> getAllTasks() {
         return taskRepo.findAll();
+
     }
 
     // Get task by id
-    public Task getTaskById(Long id) {
-        return taskRepo.findById(id).orElse(null);
+    public Optional<Task> getTaskById(Long id) {
+        return taskRepo.findById(id);
     }
 
     // Update task
@@ -76,6 +78,13 @@ public class TaskService {
         return taskRepo.save(task);
     }
 
+    // Mark task as high
+    public Task markTaskAsHigh(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new RuntimeException("Task not found with id " + id));
+        task.setPriority(Task.TaskPriority.HIGH);
+        return taskRepo.save(task);
+    }
+
     // Mark task as medium
     public Task markTaskAsMedium(Long id) {
         Task task = taskRepo.findById(id).orElseThrow(() -> new RuntimeException("Task not found with id " + id));
@@ -90,17 +99,17 @@ public class TaskService {
         return taskRepo.save(task);
     }
 
-    // Mark task as high
-    public Task markTaskAsHigh(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() -> new RuntimeException("Task not found with id " + id));
-        task.setPriority(Task.TaskPriority.HIGH);
-        return taskRepo.save(task);
-    }
 
     // Get task by status
     public List<Task> getTasksByStatus(Task.TaskStatus status) {
         return taskRepo.findByStatus(status);
     }
+
+    // Get task by status and priority
+    public List<Task> getTasksByStatusAndPriority(Task.TaskStatus status, Task.TaskPriority priority) {
+        return taskRepo.findByStatusAndPriority(status, priority);
+    }
+
     // Get tasks by priority
     public List<Task> getTasksByPriority(Task.TaskPriority priority) {
         return taskRepo.findByPriority(priority);
