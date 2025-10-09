@@ -42,100 +42,69 @@ public class TaskController {
     // Update a task
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
-        try {
-            Task updatedTask = taskService.updateTask(id, taskDetails);
-            return ResponseEntity.ok(updatedTask);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.updateTask(id, taskDetails));
     }
 
     // Delete a task
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        try {
-            taskService.deleteTask(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+//        try {
+//            taskService.deleteTask(id);
+//            return ResponseEntity.noContent().build();
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Mark task as completed
     @PatchMapping("/{id}/complete")
     public ResponseEntity<Task> markAsCompleted(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsCompleted(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+//        try {
+//            Task task = taskService.markTaskAsCompleted(id);
+//            return ResponseEntity.ok(task);
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+        taskService.markTaskAsCompleted(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Mark task as in progress
     @PatchMapping("/{id}/in-progress")
     public ResponseEntity<Task> markAsInProgress(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsInProgress(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.markTaskAsInProgress(id));
     }
 
     // Mark task as incompleted
     @PatchMapping("/{id}/todo")
     public ResponseEntity<Task> markTaskAsTodo(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsToDo(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.markTaskAsToDo(id));
     }
 
     // Mark task as urgent
     @PatchMapping("/{id}/urgent")
     public ResponseEntity<Task> markAsUrgent(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsUrgent(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.markTaskAsUrgent(id));
     }
 
     // Mark task as high
     @PatchMapping("/{id}/high")
     public ResponseEntity<Task> markAsHigh(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsHigh(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.markTaskAsHigh(id));
     }
 
     // Mark task as medium
     @PatchMapping("/{id}/medium")
     public ResponseEntity<Task> markAsMedium(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsMedium(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.markTaskAsMedium(id));
     }
 
     // Mark task as low
     @PatchMapping("/{id}/low")
     public ResponseEntity<Task> markAsLow(@PathVariable Long id) {
-        try {
-            Task task = taskService.markTaskAsLow(id);
-            return ResponseEntity.ok(task);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(taskService.markTaskAsLow(id));
     }
 
     // Delete all tasks
