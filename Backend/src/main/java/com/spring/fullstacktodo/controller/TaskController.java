@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
+
 @CrossOrigin(origins = "*") // Allow requests from React frontend
 public class TaskController {
 
@@ -67,8 +68,7 @@ public class TaskController {
 //        } catch (RuntimeException e) {
 //            return ResponseEntity.notFound().build();
 //        }
-        taskService.markTaskAsCompleted(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(taskService.markTaskAsCompleted(id));
     }
 
     // Mark task as in progress
