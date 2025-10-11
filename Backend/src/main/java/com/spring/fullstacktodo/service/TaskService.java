@@ -1,6 +1,9 @@
 package com.spring.fullstacktodo.service;
 
+import com.spring.fullstacktodo.dto.TaskRequestDTO;
+import com.spring.fullstacktodo.dto.TaskResponseDTO;
 import com.spring.fullstacktodo.exception.TaskNotFoundException;
+import com.spring.fullstacktodo.mapper.TaskMapper;
 import com.spring.fullstacktodo.model.Task;
 import com.spring.fullstacktodo.repository.TaskRepo;
 import lombok.RequiredArgsConstructor;
@@ -13,36 +16,38 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepo taskRepo;
+    private final TaskMapper taskMapper;
 
     // Create a new task
-    public Task createTask(Task task) {
-        return taskRepo.save(task);
+    public TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
+        Task task = taskMapper.toEntity(taskRequestDTO);
+        Task savedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(savedTask);
     }
 
     // Get all tasks
-    public List<Task> getAllTasks() {
-        return taskRepo.findAll();
-
+    public List<TaskResponseDTO> getAllTasks() {
+        List<Task> tasks = taskRepo.findAll();
+        return taskMapper.toResponseDtoList(tasks);
     }
 
     // Get task by id
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepo.findById(id);
+    public Optional<TaskResponseDTO> getTaskById(Long id) {
+        return taskRepo.findById(id)
+                .map(taskMapper::toResponseDto);
     }
 
     // Update task
-    public Task updateTask(Long id, Task taskDetails) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
-        task.setTitle(taskDetails.getTitle());
-        task.setDescription(taskDetails.getDescription());
-        task.setStatus(taskDetails.getStatus());
-        task.setPriority(taskDetails.getPriority());
-        return taskRepo.save(task);
+    public TaskResponseDTO updateTask(Long id, TaskRequestDTO taskRequestDTO) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        taskMapper.updateEntityFromDto(taskRequestDTO, task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Delete task
     public void deleteTask(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         taskRepo.delete(task);
     }
 
@@ -52,84 +57,95 @@ public class TaskService {
     }
 
     // Mark task as completed
-    public Task markTaskAsCompleted(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsCompleted(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setStatus(Task.TaskStatus.DONE);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Mark task as in progress
-    public Task markTaskAsInProgress(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsInProgress(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setStatus(Task.TaskStatus.IN_PROGRESS);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Mark task as to do
-    public Task markTaskAsToDo(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsToDo(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setStatus(Task.TaskStatus.TODO);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Mark task as urgent
-    public Task markTaskAsUrgent(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsUrgent(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setPriority(Task.TaskPriority.URGENT);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Mark task as high
-    public Task markTaskAsHigh(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsHigh(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setPriority(Task.TaskPriority.HIGH);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Mark task as medium
-    public Task markTaskAsMedium(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsMedium(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setPriority(Task.TaskPriority.MEDIUM);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
     // Mark task as low
-    public Task markTaskAsLow(Long id) {
-        Task task = taskRepo.findById(id).orElseThrow(() ->new TaskNotFoundException(id));
+    public TaskResponseDTO markTaskAsLow(Long id) {
+        Task task = taskRepo.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setPriority(Task.TaskPriority.LOW);
-        return taskRepo.save(task);
+        Task updatedTask = taskRepo.save(task);
+        return taskMapper.toResponseDto(updatedTask);
     }
 
-
     // Get task by status
-    public List<Task> getTasksByStatus(Task.TaskStatus status) {
-        return taskRepo.findByStatus(status);
+    public List<TaskResponseDTO> getTasksByStatus(Task.TaskStatus status) {
+        List<Task> tasks = taskRepo.findByStatus(status);
+        return taskMapper.toResponseDtoList(tasks);
     }
 
     // Get task by status and priority
-    public List<Task> getTasksByStatusAndPriority(Task.TaskStatus status, Task.TaskPriority priority) {
-        return taskRepo.findByStatusAndPriority(status, priority);
+    public List<TaskResponseDTO> getTasksByStatusAndPriority(Task.TaskStatus status, Task.TaskPriority priority) {
+        List<Task> tasks = taskRepo.findByStatusAndPriority(status, priority);
+        return taskMapper.toResponseDtoList(tasks);
     }
 
     // Get tasks by priority
-    public List<Task> getTasksByPriority(Task.TaskPriority priority) {
-        return taskRepo.findByPriority(priority);
+    public List<TaskResponseDTO> getTasksByPriority(Task.TaskPriority priority) {
+        List<Task> tasks = taskRepo.findByPriority(priority);
+        return taskMapper.toResponseDtoList(tasks);
     }
 
     // Search tasks by title
-    public List<Task> searchTasksByTitle(String title) {
-        return taskRepo.findByTitleContainingIgnoreCase(title);
+    public List<TaskResponseDTO> searchTasksByTitle(String title) {
+        List<Task> tasks = taskRepo.findByTitleContainingIgnoreCase(title);
+        return taskMapper.toResponseDtoList(tasks);
     }
 
     // Get all tasks ordered by priority
-    public List<Task> getAllTasksOrderedByPriority() {
-        return taskRepo.findAllByOrderByPriorityDesc();
+    public List<TaskResponseDTO> getAllTasksOrderedByPriority() {
+        List<Task> tasks = taskRepo.findAllByOrderByPriorityDesc();
+        return taskMapper.toResponseDtoList(tasks);
     }
 
     // Get all tasks ordered by created date
-    public List<Task> getAllTasksOrderedByDate() {
-        return taskRepo.findAllByOrderByCreatedAtDesc();
+    public List<TaskResponseDTO> getAllTasksOrderedByDate() {
+        List<Task> tasks = taskRepo.findAllByOrderByCreatedAtDesc();
+        return taskMapper.toResponseDtoList(tasks);
     }
-
 }
 
