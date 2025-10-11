@@ -117,12 +117,12 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    // Get tasks by status and priority
-    @GetMapping("/status-priority/{status}/{priority}")
-    public ResponseEntity<List<TaskResponseDTO>> getTasksByStatusAndPriority(@PathVariable Task.TaskStatus status, @PathVariable Task.TaskPriority priority) {
-        List<TaskResponseDTO> tasks = taskService.getTasksByStatusAndPriority(status, priority);
-        return ResponseEntity.ok(tasks);
-    }
+//    // Get tasks by status and priority
+//    @GetMapping("/status-priority/{status}/{priority}")
+//    public ResponseEntity<List<TaskResponseDTO>> getTasksByStatusAndPriority(@PathVariable Task.TaskStatus status, @PathVariable Task.TaskPriority priority) {
+//        List<TaskResponseDTO> tasks = taskService.getTasksByStatusAndPriority(status, priority);
+//        return ResponseEntity.ok(tasks);
+//    }
 
     // Search tasks by title
     @GetMapping("/search")
