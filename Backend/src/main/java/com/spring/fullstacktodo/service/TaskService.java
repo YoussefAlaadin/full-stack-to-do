@@ -118,11 +118,11 @@ public class TaskService {
         return taskMapper.toResponseDtoList(tasks);
     }
 
-    // Get task by status and priority
-    public List<TaskResponseDTO> getTasksByStatusAndPriority(Task.TaskStatus status, Task.TaskPriority priority) {
-        List<Task> tasks = taskRepo.findByStatusAndPriority(status, priority);
-        return taskMapper.toResponseDtoList(tasks);
-    }
+//    // Get task by status and priority
+//    public List<TaskResponseDTO> getTasksByStatusAndPriority(Task.TaskStatus status, Task.TaskPriority priority) {
+//        List<Task> tasks = taskRepo.findByStatusAndPriority(status, priority);
+//        return taskMapper.toResponseDtoList(tasks);
+//    }
 
     // Get tasks by priority
     public List<TaskResponseDTO> getTasksByPriority(Task.TaskPriority priority) {
