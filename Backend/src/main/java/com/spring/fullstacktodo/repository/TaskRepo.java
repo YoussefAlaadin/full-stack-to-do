@@ -8,17 +8,21 @@ import java.util.List;
 public interface TaskRepo extends JpaRepository<Task, Long> {
 
 
-    List<Task> findByPriority(Task.TaskPriority priority);
 
-    List<Task> findByStatus(Task.TaskStatus status);
+    List<Task> findAllByUserIdOrderByPriorityDesc(Long userId);
 
-    List<Task> findByStatusAndPriority(Task.TaskStatus status, Task.TaskPriority priority);
+    List<Task> findAllByUserIdOrderByCreatedAtDesc(Long userId);
 
-    List<Task> findByTitleContainingIgnoreCase(String title);
+    List<Task> findByUserIdAndPriority(Long userId, Task.TaskPriority priority);
 
-    List<Task> findAllByOrderByPriorityDesc();
+    List<Task> findByUserIdAndStatus(Long userId, Task.TaskStatus status);
 
-    List<Task> findAllByOrderByCreatedAtDesc();
+    List<Task> findByUserIdAndTitleContainingIgnoreCase(Long userId, String title);
 
+    java.util.Optional<Task> findByIdAndUserId(Long id, Long userId);
+
+    void deleteByIdAndUserId(Long id, Long userId);
+
+    void deleteAllByUserId(Long userId);
 
 }
